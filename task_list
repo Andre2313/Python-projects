@@ -1,0 +1,102 @@
+list of tasks(my biggest project since i start:) :
+
+
+
+tasks = []  
+
+while True:
+
+    print("\n1- Add a new task")
+
+    print("2- See the task's")
+
+    print("3- Remove task")
+
+    print("0- Leave")
+
+   
+
+    try:
+
+        choice = int(input("Choose a number(0, 1, 2, 3): "))
+
+    except ValueError:
+
+        print("Please enter a valid number!")
+
+        continue
+
+
+
+    if choice == 1:
+
+        new = input("Task: ")
+
+        tasks.append(new)
+
+        print(f"Task '{new}' added successfully!")
+
+       
+
+    elif choice == 2:  
+
+        if tasks:
+
+            print("\nTask's: ")
+
+            for i, task in enumerate(tasks):
+
+                print(f"{i+1}. {task}")
+
+        else:
+
+            print("No tasks found!")
+
+           
+
+    elif choice == 3:  
+
+        if tasks:  
+
+            print("\nCurrent tasks:")
+
+            for i, task in enumerate(tasks):
+
+                print(f"{i+1}. {task}")
+
+           
+
+            try:
+
+                index = int(input("The number of the task to remove: ")) - 1
+
+                if 0 <= index < len(tasks):
+
+                    removed_task = tasks.pop(index)
+
+                    print(f"Task '{removed_task}' removed successfully!")
+
+                else:
+
+                    print("Invalid task number!")
+
+            except ValueError:
+
+                print("Please enter a valid number!")
+
+        else:
+
+            print("No tasks to remove!")
+
+           
+
+    elif choice == 0:
+
+        print("See you later!")
+
+       
+
+    else:
+
+        print("This option can't be made")
+
