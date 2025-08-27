@@ -1,0 +1,60 @@
+#Library
+import yfinance as yf  
+
+# Main class of the calculate
+class FinancialCalculator:
+    def __init__(self):
+       # Fixed exchange rates
+       self.exchange_rates = {
+             "USD": 1.0,
+             "EUR": 0.8628,
+             "BRL": 5.5532,
+             "GBP": 0.7431,
+             "JPY": 146.13
+       }
+
+    # Fetch current stock price
+    def fetch_stock_price(self, symbol):
+        ticker = yf.Ticker(symbol)
+        data = ticker.history(period="1d")  
+        if data.empty:
+            raise ValueError("Could not fetch stock data.")
+        return data["Close"].iloc[-1]  
+
+    # Convert money to USD
+    def convert_to_usd(self, money, currency):
+        if currency in self.exchange_rates:
+            return money * self.exchange_rates[currency]
+        else:
+            print("Currency not supported. Using USD by default.")
+            return money
+
+    # Calculate number of shares (rounded to 2 decimals)
+    def calculate_shares(self, money_usd, price):
+        shares = money_usd / price
+        return round(shares, 2)
+    
+
+# Main function
+def main():
+    calc = FinancialCalculator()
+
+    # User input
+    symbol = input("Enter the stock ticker (ex: AAPL, TSLA, MSFT): ").upper()
+    price = calc.fetch_stock_price(symbol)
+    print(f"\nCurrent price of {symbol}: ${price:.2f}")
+
+    money = float(input("\nHow much money do you want to invest? "))
+    currency = input("What currency (USD, EUR, BRL, GBP, JPY)? ").upper()
+
+    # Convert to USD
+    money_usd = calc.convert_to_usd(money, currency)
+    print(f"{money:.2f} {currency} = {money_usd:.2f} USD")
+
+    # Calculate number of shares
+    shares = calc.calculate_shares(money_usd, price)
+    print(f"\nYou can buy {shares} shares of {symbol}")
+
+
+if __name__ == "__main__":
+    main()
